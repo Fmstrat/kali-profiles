@@ -34,7 +34,7 @@ The VM will retain the selected user and network profile even through reboots un
 4) Boot the Whonix Gateway
 5) Boot the Kali VM
 6) Set up the Kali VM's root profile in X Windows however you would like as a default profile
-7) Install kali-profiles:
+7) Install kali-profiles (note, you may need to enable eth0 first to get internet access):
 ```
 mount -t vboxsf Vault /media/Vault
 cd /media/Vault
@@ -42,7 +42,7 @@ git clone https://github.com/Fmstrat/kali-profiles.git .
 /media/Vault/plain/setup.sh
 ```
 
-The first thing the script will ask is the user you would like to set up multiple profiles for. In most cases, this is `root`:
+The first thing the script will do is set up gocryptfs and then ask which user you would like to set up multiple profiles for. In most cases, this is `root`:
 ```
 Enter the user you would like to sync (most commonly root): root
 ```
@@ -50,6 +50,7 @@ Enter the user you would like to sync (most commonly root): root
 Next, it will create a `/media/Vault/cipher` directory and encrypt it with the selected password in gocryptfs:
 ```
 Enter password for encryption: 
+Confirm password: 
 ```
 The Vault share could be included in cloud storage since it is encrypted. This is where profiles (copies of the user folder) will be stored.
 
@@ -60,8 +61,9 @@ After this, the script will:
 - Create a `/mnt/Vault/bin` directory in the path, so you can store encrypted scripts for use across all profiles
 - Create a `/mnt/Vault/data` directory where any data can be stored encrypted and shared accross profiles
 - Create a `/mnt/Vault/bashrc` that is encrypted and called by every profiles `~/.bashrc` to keep static aliases/etc.
+- Create the `Default` profile based off your existing user.
 
-After the script completes, reboot and you will be in the default profile with clearnet access.
+After the script completes, reboot and you will be in the default profile with clearnet access. To create new or change profiles, see Usage below.
 
 If you wish to edit the network profiles, take a look at the following files:
 ```
@@ -81,12 +83,12 @@ See current profile:
 curprofile
 ```
 
-Sync existing profile back to Vault share, clear out existing profile in VM, disable the network, then reboot to change to new one:
+Sync existing profile back to Vault share, clear out existing profile in VM, disable the network, then reboot to change to or create new one:
 ```
 changeprofile reboot
 ```
 
-Sync existing profile back to Vault share, clear out existing profile in VM, disable the network, then power off:
+Sync existing profile back to Vault share, clear out existing profile in VM, disable the network, then power off and be brought to the profile selection at next boot:
 ```
 changeprofile
 ```
