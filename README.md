@@ -3,7 +3,7 @@ Kali Profiles is a boot script for Offensive Security's Kali Virtual Machine ima
 
 ## How it works
 
-At boot it asks for your encrption password, then displays the menus which will replace your user directory with the profile before starting the network and logging in:
+At boot it asks for your encryption password, then displays the menus which will replace your user directory with the profile before starting the network and logging in:
 ```
 -------------------------------
 [1] Client A
