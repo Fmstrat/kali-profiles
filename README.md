@@ -30,7 +30,7 @@ The VM will retain the selected user and network profile even through reboots un
 1) Set up a Whonix Gateway from [Whonix](https://www.whonix.org/download/)
 2) Set up a Kali VM from [Offensive Security](https://www.offensive-security.com/kali-linux-vm-vmware-virtualbox-image-download/)
 3) In VirtualBox for the Kali VM, add a second network adapter using the `Internal Network` of `Whonix`
-4) In VirtualBox for the Kali VM, add a shared folder named `Vault`. This can be on a cloud storage provider such as `Nextcloud` as client files will be encrypted in the VM with gocryptfs.
+4) In VirtualBox for the Kali VM, add a shared folder named `Vault`. This can be on a cloud storage provider such as [Nextcloud](https://nextcloud.com/) as client files will be encrypted in the VM with gocryptfs.
 4) Boot the Whonix Gateway
 5) Boot the Kali VM
 6) Set up the Kali VM's root profile in X Windows however you would like as a default profile
@@ -38,7 +38,7 @@ The VM will retain the selected user and network profile even through reboots un
 ```
 mount -t vboxsf Vault /media/Vault
 cd /media/Vault
-git clone https://github.com/Fmstrat/kali-profiles.git
+git clone https://github.com/Fmstrat/kali-profiles.git .
 /media/Vault/plain/setup.sh
 ```
 
@@ -51,7 +51,7 @@ Next, it will create a `/media/Vault/cipher` directory and encrypt it with the s
 ```
 Enter password for encryption: 
 ```
-The Vault share could be included in cloud storage (I recommend [NextCloud](https://nextcloud.com/)) since it is encrypted. This is where profiles (copies of the user folder) will be stored.
+The Vault share could be included in cloud storage since it is encrypted. This is where profiles (copies of the user folder) will be stored.
 
 After this, the script will:
 - Set up an `/etc/rc.local` that forces profile selection at boot
