@@ -1,0 +1,138 @@
+#!/bin/bash
+
+while [ ! -d /mnt/Vault/bin ]; do
+	echo "Mounting Vault."
+	gocryptfs /media/Vault/cipher /mnt/Vault
+	sleep 1
+done
+
+if [ -f /mnt/Vault/syncpath ]; then
+
+	cd /mnt/Vault/profiles
+
+	function profileExists() {
+		ls | while read P; do
+			if [ "$1" = "$P" ]; then
+				echo "Exists"
+				break;
+			fi
+		done
+	}
+
+	function selectP() {
+		C=1
+		ls | while read P; do
+			if [ "$N" = "$C" -a "$P" != "Default" ]; then
+				echo $P
+				break;
+			fi
+			if [ "$P" != "Default" ]; then
+				let C=C+1
+			fi
+		done
+	}
+
+	function showProfiles() {
+		C=1
+		echo "-------------------------------"
+		ls | while read P; do
+			if [ "$P" != "Default" ]; then
+				echo "[${C}] $P"
+				let C=C+1
+			fi
+		done
+		echo "[D] Default"
+		if [ "$1" = "create" ]; then
+			echo "[C] Create new profile"
+			echo "[S] Drop to shell"
+		fi
+		echo "-------------------------------"
+	}
+
+	function showNetworks() {
+		echo "-------------------------------"
+		echo "[C] Clearnet"
+		echo "[W] Whonix"
+		echo "-------------------------------"
+	}
+
+
+	CURPROFILE=$(cat /mnt/Vault/curprofile)
+	CURPROFILE=$(echo $CURPROFILE)
+	if [ -z "${CURPROFILE}" ]; then
+		while [ "$SELECTEDP" = "" -a "$N" != "S" -a "$N" != "s" -a "$N" != "C" -a "$N" != "c" -a "$N" != "D" -a "$N" != "d" ]; do
+			clear
+			showProfiles create
+			echo -n "Choose profile: "
+			read N
+			SELECTEDP=$(selectP)
+
+			if [ "$N" = "C" -o "$N" = "c" ]; then
+				while [ -z "$SELECTEDP" -a "$N" != "D" -a "$N" != "d" ]; do
+					clear
+					showProfiles
+					echo -n "Choose a profile to base this new profile on: "
+					read N
+					if [ "$N" = "D" -o "$N" = "d" ]; then
+						SELECTEDP=Default
+					else
+						SELECTEDP=$(selectP)
+					fi
+				done
+				EXISTS=1
+				PN=""
+				while [ $EXISTS -eq 1 -o "$PN" = "" ]; do
+					echo -n "Select a name for this profile: "
+					read PN
+					EXISTS=0
+					PEXISTS=`profileExists "$PN"`
+					if [ -n "$PEXISTS" ]; then
+						EXISTS=1
+						echo -n "This profile name is already in use Press enter to continue."
+						read placeholder
+					fi
+				done
+				echo "Cloning $SELECTEDP to $PN..."
+				cp -a "$SELECTEDP" "$PN"
+				echo -n "Finished copying. Press enter to continue."
+				read placeholder
+				SELECTEDP=""
+				N="NOT SELECTED"
+			elif [ "$N" = "S" -o "$N" = "s" ]; then
+				/bin/bash
+				SELECTEDP=""
+				N="NOT SELECTED"
+			elif [ "$N" = "D" -o "$N" = "d" ]; then
+				SELECTEDP=Default
+			fi
+		done
+
+		NET=NONE
+		while [ "$NET" != "C" -a "$NET" != "c" -a "$NET" != "W" -a "$NET" != "w" ]; do
+			clear
+			showNetworks
+			echo -n "Choose network: "
+			read NET
+			if [ "$NET" = "C" -o "$NET" = "c" ]; then
+				cp -a /media/Vault/plain/setup/interfaces.clearnet /etc/network/interfaces
+				cp -a /media/Vault/plain/setup/resolv.conf.clearnet /etc/resolv.conf
+			elif [ "$NET" = "W" -o "$NET" = "w" ]; then
+				cp -a /media/Vault/plain/setup/interfaces.whonix /etc/network/interfaces
+				cp -a /media/Vault/plain/setup/resolv.conf.whonix /etc/resolv.conf
+			fi
+
+		done
+		echo "Restarting network..."
+		service networking restart
+		service network-manager restart
+
+		SP=$(cat /mnt/Vault/syncpath)
+		SP=$(echo $SP)
+		echo "Syncing ${SP}..."
+		echo "${SELECTEDP}" > "/mnt/Vault/curprofile"
+		rsync -av --delete "/mnt/Vault/profiles/${SELECTEDP}/" "${SP}/"
+
+	fi
+fi
+
+exit 0

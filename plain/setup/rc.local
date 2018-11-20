@@ -1,0 +1,5 @@
+#!/bin/bash
+
+openvt -s -w /media/Vault/plain/bin/onboot-init
+
+exit 0

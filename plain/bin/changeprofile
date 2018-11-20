@@ -1,0 +1,28 @@
+#!/bin/bash
+
+if [ -d /media/Vault/plain/setup ]; then
+	cp -a /media/Vault/plain/setup/interfaces.disabled /etc/network/interfaces
+	cp -a /media/Vault/plain/setup/resolv.conf.disabled /etc/resolv.conf
+fi
+
+if [ -f /mnt/Vault/syncpath ]; then
+	SP=$(cat /mnt/Vault/syncpath)
+	SP=$(echo $SP)
+	CURPROFILE=$(cat /mnt/Vault/curprofile)
+	CURPROFILE=$(echo $CURPROFILE)
+	echo "Syncing back ${SP} to ${CURPROFILE}..." | tee /0
+	if [ -n "${SP}" -a -n "${CURPROFILE}" ]; then
+		rsync -av --ignore-errors --delete "${SP}/" "/mnt/Vault/profiles/${CURPROFILE}/" > /dev/null 2>&1
+		echo "Clearing ${SP}..."
+		rm -rf /root/*
+		rm -rf /root/.* 2> /dev/null
+		rm -f /mnt/Vault/curprofile
+		if [ "$1" = "reboot" ]; then
+			reboot
+		else
+			poweroff
+		fi
+	fi
+fi
+
+exit 0

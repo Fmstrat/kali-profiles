@@ -1,0 +1,15 @@
+#!/bin/bash
+
+export PATH="/mnt/Vault/bin:/media/Vault/plain/bin:$PATH"
+
+find /mnt/Vault/bin -type f | while read F; do
+	if [ ! -x "$F" ]; then
+		chmod +x "$F"
+	fi
+done
+
+find /media/Vault/plain/bin -type f | while read F; do
+	if [ ! -x "$F" ]; then
+		chmod +x "$F"
+	fi
+done

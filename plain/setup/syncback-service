@@ -1,0 +1,37 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          syncback
+# Required-Start:    $remote_fs $local_fs $named
+# Required-Stop:     $remote_fs $local_fs $named
+# Should-Start:      autofs
+# Should-Stop:       autofs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 6
+# Short-Description: Sync back profile folder
+### END INIT INFO
+
+# This service is under development
+# This service is intended to syncback users on reboot
+
+if [ "$1" = "stop" ]; then
+	if [ -d /media/Vault/plain/setup ]; then
+		cp -a /media/Vault/plain/setup/interfaces.disabled /etc/network/interfaces
+		cp -a /media/Vault/plain/setup/resolv.conf.disabled /etc/resolv.conf
+	fi
+	#if [ -f /mnt/Vault/syncpath ]; then
+		#SP=$(cat /mnt/Vault/syncpath)
+		#SP=$(echo $SP)
+		#CURPROFILE=$(cat /mnt/Vault/curprofile)
+		#CURPROFILE=$(echo $CURPROFILE)
+		#echo "Syncing back ${SP} to ${CURPROFILE}..."
+		#if [ -n "${SP}" -a -n "${CURPROFILE}" ]; then
+			#rsync -av --ignore-errors --delete "${SP}/" "/mnt/Vault/profiles/${CURPROFILE}/"
+			#echo "Syncing Default to ${SP}..."
+			#echo Default |tee /mnt/Vault/curprofile
+			#rsync -av --ignore-errors --delete "/mnt/Vault/profiles/Default/" "${SP}/"
+		#fi
+	#fi
+fi
+
+exit 0
