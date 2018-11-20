@@ -34,7 +34,13 @@ The VM will retain the selected user and network profile even through reboots un
 4) Boot the Whonix Gateway
 5) Boot the Kali VM
 6) Set up the Kali VM's root profile in X Windows however you would like as a default profile
-7) Install kali-profiles (note, you may need to enable eth0 first to get internet access):
+7) Enable internet on eth0 (this may not be required if internet is already active):
+```
+echo "auto eth0" >> /etc/network/interfaces
+echo "iface eth0 inet dhcp" >> /etc/network/interfaces
+ifup eth0
+```
+7) Install kali-profiles:
 ```
 mount -t vboxsf Vault /media/Vault
 cd /media/Vault
