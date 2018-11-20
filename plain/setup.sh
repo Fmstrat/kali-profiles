@@ -41,6 +41,8 @@ EOF
 cp "/media/${SF}/plain/setup/rc.local" /etc/rc.local
 chmod +x /etc/rc.local
 
+echo "Vault /media/Vault vboxsf defaults 0 0" >> /etc/fstab
+
 # Shutdown service is still under development
 #cp /media/${SF}/plain/setup/syncback-service /etc/init.d/syncback-service
 #chmod +x /etc/init.d/syncback-service

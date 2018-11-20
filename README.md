@@ -13,9 +13,26 @@ Kali Profiles is a boot script for Offensive Security's Kali Virtual Machine ima
 6) Set up the Kali VM's root profile in X Windows however you would like as a default profile
 7) Install kali-profiles:
 ```
-mount -t vboxfs Vault /media/Vault
+mount -t vboxsf Vault /media/Vault
 cd /media/Vault
 git clone https://github.com/Fmstrat/kali-profiles.git
-/media/Vault/plain/bin/setup.sh
+/media/Vault/plain/setup.sh
 ```
 Follow the prompts, and then reboot!
+
+## Usage
+
+See current profile:
+```
+curprofile
+```
+
+Sync existing profile back to Vault share, clear out existing profile in VM, then reboot to change to new one:
+```
+changeprofile reboot
+```
+
+Sync existing profile back to Vault share, clear out existing profile in VM, then power off:
+```
+changeprofile
+```
