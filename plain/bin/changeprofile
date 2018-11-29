@@ -17,6 +17,7 @@ if [ -f /mnt/Vault/syncpath ]; then
 		rm -rf /root/*
 		rm -rf /root/.* 2> /dev/null
 		rm -f /mnt/Vault/curprofile
+		rm -f /mnt/Vault/curnet
 		if [ "$1" = "reboot" ]; then
 			reboot
 		else

@@ -116,15 +116,34 @@ if [ -f /mnt/Vault/syncpath ]; then
 			if [ "$NET" = "C" -o "$NET" = "c" ]; then
 				cp -a /media/Vault/plain/setup/interfaces.clearnet /etc/network/interfaces
 				cp -a /media/Vault/plain/setup/resolv.conf.clearnet /etc/resolv.conf
+				echo "clearnet" > "/mnt/Vault/curnet"
 			elif [ "$NET" = "W" -o "$NET" = "w" ]; then
 				cp -a /media/Vault/plain/setup/interfaces.whonix /etc/network/interfaces
 				cp -a /media/Vault/plain/setup/resolv.conf.whonix /etc/resolv.conf
+				echo "whonix" > "/mnt/Vault/curnet"
 			fi
 
 		done
 		echo "Restarting network..."
 		service networking restart
 		service network-manager restart
+
+		CURNET=$(cat /mnt/Vault/curnet)
+		if [ "$CURNET" = "whonix" ]; then
+			TORSTATUS=""
+			while [ -z "$TORSTATUS" ]; do
+				echo "Checking Tor status..."
+				TORSTATUS=$(curl -s https://check.torproject.org/ | grep "Congratulations. This browser is configured to use Tor.")
+				if [ -n "$TORSTATUS" ]; then
+					echo "Tor is connected."
+				else
+					echo "Tor is not connected."
+					echo "";
+					echo -n "Press enter to retry."
+					read TS
+				fi
+			done
+		fi
 
 		SP=$(cat /mnt/Vault/syncpath)
 		SP=$(echo $SP)
