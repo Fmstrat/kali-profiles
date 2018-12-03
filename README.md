@@ -98,3 +98,7 @@ Sync existing profile back to Vault share, clear out existing profile in VM, dis
 ```
 changeprofile
 ```
+
+## Adding to another VM
+
+To add to another VM, just spin up another Kali instance with the same config, and use `/media/Vault/addmachine.sh`
