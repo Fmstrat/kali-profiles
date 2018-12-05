@@ -114,12 +114,12 @@ if [ -f /mnt/Vault/syncpath ]; then
 			echo -n "Choose network: "
 			read NET
 			if [ "$NET" = "C" -o "$NET" = "c" ]; then
-				cp -a /media/Vault/plain/setup/interfaces.clearnet /etc/network/interfaces
-				cp -a /media/Vault/plain/setup/resolv.conf.clearnet /etc/resolv.conf
+				cp -a /mnt/Vault/networks/interfaces.clearnet /etc/network/interfaces
+				cp -a /mnt/Vault/networks/resolv.conf.clearnet /etc/resolv.conf
 				echo "clearnet" > "/mnt/Vault/curnet"
 			elif [ "$NET" = "W" -o "$NET" = "w" ]; then
-				cp -a /media/Vault/plain/setup/interfaces.whonix /etc/network/interfaces
-				cp -a /media/Vault/plain/setup/resolv.conf.whonix /etc/resolv.conf
+				cp -a /mnt/Vault/networks/interfaces.whonix /etc/network/interfaces
+				cp -a /mnt/Vault/networks/resolv.conf.whonix /etc/resolv.conf
 				echo "whonix" > "/mnt/Vault/curnet"
 			fi
 

@@ -99,6 +99,10 @@ Sync existing profile back to Vault share, clear out existing profile in VM, dis
 changeprofile
 ```
 
+## Changing network settings
+
+If you wish to change the network settings for `Clearnet` or `Whonix`, you can simply edit the files in `/mnt/Vault/networks`.
+
 ## Adding to another VM
 
 To add to another VM, just spin up another Kali instance with the same config, and use `/media/Vault/addmachine.sh`

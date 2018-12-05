@@ -63,6 +63,12 @@ chmod +x /mnt/${SF}/bashrc
 cp -a /media/Vault/plain/setup/interfaces.disabled /etc/network/interfaces
 cp -a /media/Vault/plain/setup/resolv.conf.disabled /etc/resolv.conf
 
+mkdir -p /mnt/Vault/networks
+cp -a /media/Vault/plain/setup/interfaces.whonix /mnt/Vault/networks/
+cp -a /media/Vault/plain/setup/resolv.conf.whonix /mnt/Vault/networks/
+cp -a /media/Vault/plain/setup/interfaces.clearnet /mnt/Vault/networks/
+cp -a /media/Vault/plain/setup/resolv.conf.clearnet /mnt/Vault/networks/
+
 echo "Default" > /mnt/${SF}/curprofile
 echo "$SYNCPATH" > /mnt/${SF}/syncpath
 echo -n "Creating default profile... "
