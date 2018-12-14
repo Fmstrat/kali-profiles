@@ -69,6 +69,15 @@ cp -a /media/Vault/plain/setup/resolv.conf.whonix /mnt/Vault/networks/
 cp -a /media/Vault/plain/setup/interfaces.clearnet /mnt/Vault/networks/
 cp -a /media/Vault/plain/setup/resolv.conf.clearnet /mnt/Vault/networks/
 
+echo "Saying 'y' speeds up boot times, but leaves potentially"
+echo "important files on the VM. Make sure the VM is encrypted"
+echo "or stored on an encrypted drive if you say 'y'."
+echo -n "(y/n)? "
+read K;
+if [ "$K" == "y" ]; then
+	touch /mnt/Vault/keepprofile
+fi
+
 echo "Default" > /mnt/${SF}/curprofile
 echo "$SYNCPATH" > /mnt/${SF}/syncpath
 echo -n "Creating default profile... "
