@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ -f /mnt/Vault/syncpath ]; then
+	SP=$(cat /mnt/Vault/syncpath)
+	SP=$(echo $SP)
+	CURPROFILE=$(cat /mnt/Vault/curprofile)
+	CURPROFILE=$(echo $CURPROFILE)
+	echo "Syncing back ${SP} to ${CURPROFILE}..." | tee /0
+	if [ -n "${SP}" -a -n "${CURPROFILE}" ]; then
+		rsync -av --ignore-errors --delete "${SP}/" "/mnt/Vault/profiles/${CURPROFILE}/" > /dev/null 2>&1
+	fi
+fi
+
+exit 0

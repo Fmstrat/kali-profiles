@@ -99,6 +99,11 @@ Sync existing profile back to Vault share, clear out existing profile in VM, dis
 changeprofile
 ```
 
+Sync existing profile back to Vault share, but stay logged in and don't reboot or shutdown.
+```
+backupprofile
+```
+
 ## Changing network settings
 
 If you wish to change the network settings for `Clearnet` or `Whonix`, you can simply edit the files in `/mnt/Vault/networks`.
